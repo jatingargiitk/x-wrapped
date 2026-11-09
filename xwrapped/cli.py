@@ -50,9 +50,11 @@ def main(argv=None):
     if s["total"] == 0:
         print("x-wrapped: no posts in the last %d days ending %s (archive has %d posts total)"
               % (a.days, s["end"], len(tweets)), file=sys.stderr)
+    wrote = []
     if a.out:
         with open(a.out, "w", encoding="utf-8") as fh:
             fh.write(render_svg(s))
+        wrote.append(a.out)
     if a.png:
         try:
             import cairosvg
@@ -60,10 +62,10 @@ def main(argv=None):
             print("x-wrapped: error: --png needs cairosvg: pip install 'x-wrapped[png]'", file=sys.stderr)
             return 2
         cairosvg.svg2png(bytestring=render_svg(s).encode("utf-8"), write_to=a.png)
-        print("wrote %s" % a.png, file=sys.stderr)
-    print(json.dumps(s, indent=2, ensure_ascii=False) if a.json else render_text(s))
-    if a.out:
-        print("wrote %s" % a.out, file=sys.stderr)
+        wrote.append(a.png)
+    print(json.dumps(s, indent=2, ensure_ascii=False) if a.json else render_text(s), flush=True)
+    for path in wrote:
+        print("wrote %s" % path, file=sys.stderr)
     return 0 if s["total"] else 1
 
 

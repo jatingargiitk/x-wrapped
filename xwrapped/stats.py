@@ -55,6 +55,10 @@ def top_words(texts, n=5):
     return c.most_common(n)
 
 
+def _named(pairs):
+    return [{"name": k, "count": v} for k, v in pairs]
+
+
 def compute(tweets, days=30, until=None, tz=timezone.utc, handle=None):
     win, start, until = window(tweets, days, until)
     own = [t for t in win if not t["is_repost"]]
@@ -99,7 +103,7 @@ def compute(tweets, days=30, until=None, tz=timezone.utc, handle=None):
             "date": top["created_at"].astimezone(tz).strftime("%Y-%m-%d"),
             "url": ("https://x.com/%s/status/%s" % (handle or "i/web", top["id"])) if top["id"] else None,
         },
-        "top_reply_targets": reply_targets.most_common(3),
-        "top_hashtags": hashtags.most_common(3),
-        "top_words": top_words([t["text"] for t in originals]),
+        "top_reply_targets": _named(reply_targets.most_common(3)),
+        "top_hashtags": _named(hashtags.most_common(3)),
+        "top_words": _named(top_words([t["text"] for t in originals])),
     }

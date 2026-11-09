@@ -92,8 +92,8 @@ class TestStats(unittest.TestCase):
         self.assertEqual((s["posts"], s["replies"], s["reposts"], s["total"]), (2, 1, 1, 4))
         self.assertEqual(s["likes_received"], 15)
         self.assertEqual(s["top_post"]["id"], "2")
-        self.assertEqual(s["top_reply_targets"], [("bob", 1)])
-        self.assertEqual(s["top_hashtags"], [("ai", 1)])
+        self.assertEqual(s["top_reply_targets"], [{"name": "bob", "count": 1}])
+        self.assertEqual(s["top_hashtags"], [{"name": "ai", "count": 1}])
         self.assertEqual(s["longest_streak"], 3)
         self.assertEqual(s["start"], "2026-10-02")
 

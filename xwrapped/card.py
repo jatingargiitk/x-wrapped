@@ -61,9 +61,9 @@ def render_svg(s):
     if s["busiest_weekday"]:
         facts.append("most active: %ss around %s" % (s["busiest_weekday"], _hour(s["busiest_hour"])))
     if s["top_reply_targets"]:
-        facts.append("most replied to: @%s" % s["top_reply_targets"][0][0])
+        facts.append("most replied to: @%s" % s["top_reply_targets"][0]["name"])
     if s["top_hashtags"]:
-        facts.append("#%s" % s["top_hashtags"][0][0])
+        facts.append("#%s" % s["top_hashtags"][0]["name"])
     if facts:
         out.append('<text x="60" y="%d" font-size="22" fill="#cbd5e1">%s</text>' % (y + 95, escape(_clip("  \u00b7  ".join(facts), 95))))
     out.append('<text x="1140" y="645" font-size="16" fill="#64748b" text-anchor="end">made offline with x-wrapped</text>')
@@ -89,9 +89,9 @@ def render_text(s):
         tp = s["top_post"]
         lines.append("  top post         %s likes, %s: %s" % (_fmt(tp["likes"]), tp["date"], _clip(tp["text"], 60)))
     if s["top_reply_targets"]:
-        lines.append("  most replied to  " + ", ".join("@%s (%d)" % kv for kv in s["top_reply_targets"]))
+        lines.append("  most replied to  " + ", ".join("@%(name)s (%(count)d)" % kv for kv in s["top_reply_targets"]))
     if s["top_hashtags"]:
-        lines.append("  top hashtags     " + ", ".join("#%s (%d)" % kv for kv in s["top_hashtags"]))
+        lines.append("  top hashtags     " + ", ".join("#%(name)s (%(count)d)" % kv for kv in s["top_hashtags"]))
     if s["top_words"]:
-        lines.append("  top words        " + ", ".join("%s (%d)" % kv for kv in s["top_words"]))
+        lines.append("  top words        " + ", ".join("%(name)s (%(count)d)" % kv for kv in s["top_words"]))
     return "\n".join(lines)
