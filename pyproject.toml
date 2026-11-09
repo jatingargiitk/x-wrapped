@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "x-wrapped"
+version = "0.1.0"
+description = "Turn your X (Twitter) data archive into a shareable 30/90-day stats card, offline."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Jatin Garg"}]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+png = ["cairosvg>=2.5"]
+
+[project.scripts]
+x-wrapped = "xwrapped.cli:main"
+
+[tool.setuptools]
+packages = ["xwrapped"]
